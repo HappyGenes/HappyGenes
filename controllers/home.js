@@ -3,5 +3,5 @@
  * Home page.
  */
 exports.index = (req, res) => {
-  return res.redirect('/hg');
+  return res.redirect('/mood');
 };
