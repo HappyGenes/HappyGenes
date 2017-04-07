@@ -435,7 +435,7 @@ passport.use('sequencing', new OAuth2Strategy({
   clientID: process.env.SEQUENCING_KEY,
   clientSecret: process.env.SEQUENCING_SECRET,
   callbackURL: process.env.SEQUENCING_REDIRECT_URL,
-  scope: ['demo'],
+  scope: 'demo,external',
   passReqToCallback: true,
   state: true,
   customHeaders: {"Authorization": process.env.SEQUENCING_CUSTOMHEADER}

@@ -138,10 +138,12 @@ app.post('/account/password', passportConfig.isAuthenticated, userController.pos
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 app.get('/hg', passportConfig.isAuthenticated, hgController.index);
-app.get('/mood', passportConfig.isAuthenticated,  moodController.index);
+app.get('/mood', passportConfig.isAuthenticated,  moodController.getMood);
 app.get('/tip', passportConfig.isAuthenticated,  tipController.index);
 app.get('/signin', userController.getSignin);
 app.post('/signin', userController.postSignin);
+app.get('/mood/appchain', passportConfig.isAuthenticated,  moodController.getAppchain);
+app.get('/mood/:state', passportConfig.isAuthenticated,  moodController.getResults);
 
 /**
  * API examples routes.
