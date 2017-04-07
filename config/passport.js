@@ -425,6 +425,34 @@ passport.use('tumblr', new OAuthStrategy({
   }
 ));
 
+ /**
+ * Sequencing API OAuth.
+ */
+
+passport.use('sequencing', new OAuth2Strategy({
+  authorizationURL: 'https://sequencing.com/oauth2/authorize',
+  tokenURL: 'https://sequencing.com/oauth2/token',
+  clientID: process.env.SEQUENCING_KEY,
+  clientSecret: process.env.SEQUENCING_SECRET,
+  callbackURL: process.env.SEQUENCING_REDIRECT_URL,
+  scope: ['demo'],
+  passReqToCallback: true,
+  state: true,
+  customHeaders: {"Authorization": process.env.SEQUENCING_CUSTOMHEADER}
+},
+  (req, accessToken, refreshToken, profile, done) => {
+    console.log('accessToken',accessToken)
+    console.log('req.user:', req.user)
+    User.findById(req.user._id, (err, user) => {
+      if (err) { return done(err); }
+      user.tokens.push({ kind: 'sequencing', accessToken });
+      user.save((err) => {
+        done(err, user);
+      });
+    });
+  }
+));
+
 /**
  * Foursquare API OAuth.
  */

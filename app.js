@@ -137,10 +137,11 @@ app.post('/account/profile', passportConfig.isAuthenticated, userController.post
 app.post('/account/password', passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post('/account/delete', passportConfig.isAuthenticated, userController.postDeleteAccount);
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
-app.get('/hg', hgController.index);
-app.get('/mood', moodController.index);
-app.get('/tip', tipController.index);
-
+app.get('/hg', passportConfig.isAuthenticated, hgController.index);
+app.get('/mood', passportConfig.isAuthenticated,  moodController.index);
+app.get('/tip', passportConfig.isAuthenticated,  tipController.index);
+app.get('/signin', userController.getSignin);
+app.post('/signin', userController.postSignin);
 
 /**
  * API examples routes.
@@ -178,6 +179,10 @@ app.get('/api/google-maps', apiController.getGoogleMaps);
 /**
  * OAuth authentication routes. (Sign in)
  */
+app.get('/auth/sequencing', passport.authenticate('sequencing'));
+app.get('/auth/sequencing/callback', passport.authenticate('sequencing', { failureRedirect: '/signin' }), (req, res) => {
+  res.redirect(req.session.returnTo || '/');
+});
 app.get('/auth/instagram', passport.authenticate('instagram'));
 app.get('/auth/instagram/callback', passport.authenticate('instagram', { failureRedirect: '/login' }), (req, res) => {
   res.redirect(req.session.returnTo || '/');

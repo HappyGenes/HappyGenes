@@ -10,7 +10,7 @@ const User = require('../models/User');
  */
 exports.getLogin = (req, res) => {
   if (req.user) {
-    return res.redirect('/');
+    return res.redirect('/hg');
   }
   res.render('account/login', {
     title: 'Login'
@@ -42,10 +42,43 @@ exports.postLogin = (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect(req.session.returnTo || '/');
+      res.redirect(req.session.returnTo || '/hg');
     });
   })(req, res, next);
 };
+
+  /**
+ * GET /signin
+ * Login page.
+ **/
+exports.getSignin = (req, res) => {
+  if (req.user) {
+    return res.redirect('/');
+  }
+  res.render('account/signin', {
+    title: 'Signin'
+  });
+};
+
+/**
+ * POST /signin
+ * Sign in using email and password.
+ **/
+
+exports.postSignin = (req, res, next) => {
+  req.sanitize('name').trim();
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/signin');
+  }
+  console.log(req.body.name);
+  req.user._id=req.body.name;
+  return res.redirect('/auth/sequencing');
+};
+
+
 
 /**
  * GET /logout
