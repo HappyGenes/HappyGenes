@@ -1,5 +1,11 @@
 extends layout
 
 block content
-  h1 Hackathon Starter
-  p.lead A boilerplate for Node.js web applications.
+  p
+  br
+  br
+  .col-sm-offset-3.col-sm-4
+    if user.sequencing
+      p: a(href='/mood') My genese, my mood, what is next?
+    else
+      p: a(href='/auth/sequencing') Get my personalized data from Sequencing.com
