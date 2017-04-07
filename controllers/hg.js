@@ -4,6 +4,6 @@
  */
 exports.index = (req, res) => {
   res.render('hg', {
-    title: 'hg'
+    title: 'Happy Genes'
   });
 };
